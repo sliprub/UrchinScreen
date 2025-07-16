@@ -22,7 +22,7 @@
 
 #import "VirtualDisplay.h"
 
-id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name) {
+id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name, int rotation) {
 
     CGVirtualDisplaySettings *settings = [[CGVirtualDisplaySettings alloc] init];
     settings.hiDPI = hiDPI;
@@ -36,9 +36,18 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
     descriptor.bluePrimary = CGPointMake(0.1494, 0.0557);
     descriptor.greenPrimary = CGPointMake(0.2559, 0.6983);
     descriptor.redPrimary = CGPointMake(0.6797, 0.3203);
-    descriptor.maxPixelsHigh = height;
-    descriptor.maxPixelsWide = width;
-    descriptor.sizeInMillimeters = CGSizeMake(25.4 * width / ppi, 25.4 * height / ppi);
+    
+    // Handle rotation by swapping width/height for 90° and 270° rotations
+    int displayWidth = width;
+    int displayHeight = height;
+    if (rotation == 90 || rotation == 270) {
+        displayWidth = height;
+        displayHeight = width;
+    }
+    
+    descriptor.maxPixelsHigh = displayHeight;
+    descriptor.maxPixelsWide = displayWidth;
+    descriptor.sizeInMillimeters = CGSizeMake(25.4 * displayWidth / ppi, 25.4 * displayHeight / ppi);
     descriptor.serialNum = 1;
     descriptor.productID = 1;
     descriptor.vendorID = 1;
@@ -46,11 +55,11 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
     CGVirtualDisplay *display = [[CGVirtualDisplay alloc] initWithDescriptor:descriptor];
 
     if (settings.hiDPI) {
-        width /= 2;
-        height /= 2;
+        displayWidth /= 2;
+        displayHeight /= 2;
     }
-    CGVirtualDisplayMode *mode = [[CGVirtualDisplayMode alloc] initWithWidth:width
-                                                                      height:height
+    CGVirtualDisplayMode *mode = [[CGVirtualDisplayMode alloc] initWithWidth:displayWidth
+                                                                      height:displayHeight
                                                                  refreshRate:60];
     settings.modes = @[mode];
 

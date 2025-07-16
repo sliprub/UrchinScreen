@@ -22,15 +22,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
         let width, height, ppi: Int32
         let hiDPI: Bool
         let description: String
-        init(_ width: Int32, _ height: Int32, _ ppi: Int32, _ hiDPI: Bool, _ description: String) {
+        let rotation: Int32
+        init(_ width: Int32, _ height: Int32, _ ppi: Int32, _ hiDPI: Bool, _ description: String, rotation: Int32 = 0) {
             self.width = width
             self.height = height
             self.ppi = ppi
             self.hiDPI = hiDPI
             self.description = description
+            self.rotation = rotation
         }
-        init(_ width: Int, _ height: Int, _ ppi: Int, _ hiDPI: Bool, _ description: String) {
-            self.init(Int32(width), Int32(height), Int32(ppi), hiDPI, description)
+        init(_ width: Int, _ height: Int, _ ppi: Int, _ hiDPI: Bool, _ description: String, rotation: Int = 0) {
+            self.init(Int32(width), Int32(height), Int32(ppi), hiDPI, description, rotation: Int32(rotation))
         }
     }
 
@@ -181,7 +183,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
                                                       resolution.height,
                                                       resolution.ppi,
                                                       resolution.hiDPI,
-                                                      name) {
+                                                      name,
+                                                      Int32(resolution.rotation)) {
                     virtualDisplays[virtualDisplayCounter] = VirtualDisplay(number: virtualDisplayCounter, display: display)
                     let menuItem = NSMenuItem(title: "\(name) (\(resolution.width)×\(resolution.height))",
                                                     action: #selector(deleteDisplay(_:)),
@@ -209,7 +212,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
                                                       peerDisplay.resolution.height,
                                                       peerDisplay.resolution.ppi,
                                                       peerDisplay.resolution.hiDPI,
-                                                      peerDisplay.resolution.description) {
+                                                      peerDisplay.resolution.description,
+                                                      Int32(peerDisplay.resolution.rotation)) {
                     virtualDisplays[virtualDisplayCounter] = VirtualDisplay(number: virtualDisplayCounter, display: display)
                     let menuItem = NSMenuItem(title: peerDisplay.resolution.description,
                                               action: #selector(deleteDisplay(_:)),
