@@ -149,8 +149,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
 
         var i = 0
         for size in predefResolutions {
-            let item = NSMenuItem(title: "\(size.width)×\(size.height) (\(size.description))", action: #selector(newDisplay(_:)), keyEquivalent: "")
-            item.tag = i
+            // Create a submenu for each resolution with rotation options
+            let resolutionSubmenu = NSMenu()
+            
+            // Add rotation options for this resolution
+            let rotations = [(0, "Standard"), (90, "90° Clockwise"), (180, "180°"), (270, "270° Clockwise")]
+            
+            for (angle, rotationName) in rotations {
+                let rotatedResolution = Resolution(size.width, size.height, size.ppi, size.hiDPI, size.description, rotation: Int32(angle))
+                let rotationItem = NSMenuItem(title: rotationName, action: #selector(newDisplayWithRotation(_:)), keyEquivalent: "")
+                rotationItem.tag = i * 10 + (angle / 90) // Encode resolution index and rotation
+                rotationItem.representedObject = rotatedResolution
+                resolutionSubmenu.addItem(rotationItem)
+            }
+            
+            let item = NSMenuItem(title: "\(size.width)×\(size.height) (\(size.description))", action: nil, keyEquivalent: "")
+            item.submenu = resolutionSubmenu
             newMenu.addItem(item)
             i += 1
         }
@@ -200,6 +214,43 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
                     // don't need to advertise our displays.
                     ns.setTXTRecord(nil)
                 }
+            }
+        }
+    }
+
+    @objc func newDisplayWithRotation(_ sender: AnyObject?) {
+        if let menuItem = sender as? NSMenuItem,
+           let resolution = menuItem.representedObject as? Resolution {
+            
+            let rotationSuffix = resolution.rotation == 0 ? "" : " (\(resolution.rotation)°)"
+            let name = "FluffyDisplay Virtual Display #\(virtualDisplayCounter)\(rotationSuffix)"
+            
+            if let display = createVirtualDisplay(resolution.width,
+                                                  resolution.height,
+                                                  resolution.ppi,
+                                                  resolution.hiDPI,
+                                                  name,
+                                                  Int32(resolution.rotation)) {
+                
+                virtualDisplays[virtualDisplayCounter] = VirtualDisplay(number: virtualDisplayCounter, display: display)
+                
+                let displayInfo = resolution.rotation == 0 ? 
+                    "\(resolution.width)×\(resolution.height)" : 
+                    "\(resolution.width)×\(resolution.height) (\(resolution.rotation)°)"
+                
+                let deleteItem = NSMenuItem(title: "\(name) (\(displayInfo))",
+                                           action: #selector(deleteDisplay(_:)),
+                                           keyEquivalent: "")
+                deleteItem.tag = virtualDisplayCounter
+                deleteMenu.addItem(deleteItem)
+                deleteSubmenu.isHidden = false
+                
+                virtualDisplayCounter += 1
+                
+                // If we have created a new virtual display, this FluffyDisplay clearly is the
+                // "main" Mac and no other Mac will use a physical display on this Mac. So we
+                // don't need to advertise our displays.
+                ns.setTXTRecord(nil)
             }
         }
     }
