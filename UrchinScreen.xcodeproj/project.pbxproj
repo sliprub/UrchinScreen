@@ -15,15 +15,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BEB26A3F2530B2F600744C86 /* FluffyDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluffyDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
+BEB26A3F2530B2F600744C86 /* UrchinScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrchinScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB26A422530B2F600744C86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEB26A462530B2F700744C86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEB26A492530B2F700744C86 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BEB26A4C2530B2F700744C86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BEB26A4E2530B2F700744C86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BEB26A4F2530B2F700744C86 /* FluffyDisplay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluffyDisplay.entitlements; sourceTree = "<group>"; };
+BEB26A4F2530B2F700744C86 /* UrchinScreen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UrchinScreen.entitlements; sourceTree = "<group>"; };
 		BEB26A562530B51000744C86 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
-		BEB26A772531163C00744C86 /* FluffyDisplay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluffyDisplay-Bridging-Header.h"; sourceTree = "<group>"; };
+BEB26A772531163C00744C86 /* UrchinScreen-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UrchinScreen-Bridging-Header.h"; sourceTree = "<group>"; };
 		BEB26A782531163C00744C86 /* VirtualDisplay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VirtualDisplay.m; sourceTree = "<group>"; };
 		BEB26A7E2531183700744C86 /* VirtualDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualDisplay.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,7 +43,7 @@
 			isa = PBXGroup;
 			children = (
 				BEB26A562530B51000744C86 /* include */,
-				BEB26A412530B2F600744C86 /* FluffyDisplay */,
+				BEB26A412530B2F600744C86 /* UrchinScreen */,
 				BEB26A402530B2F600744C86 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,12 +51,12 @@
 		BEB26A402530B2F600744C86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BEB26A3F2530B2F600744C86 /* FluffyDisplay.app */,
+				BEB26A3F2530B2F600744C86 /* UrchinScreen.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BEB26A412530B2F600744C86 /* FluffyDisplay */ = {
+BEB26A412530B2F600744C86 /* UrchinScreen */ = {
 			isa = PBXGroup;
 			children = (
 				BEB26A7E2531183700744C86 /* VirtualDisplay.h */,
@@ -64,12 +64,12 @@
 				BEB26A462530B2F700744C86 /* Assets.xcassets */,
 				BEB26A4B2530B2F700744C86 /* Main.storyboard */,
 				BEB26A4E2530B2F700744C86 /* Info.plist */,
-				BEB26A4F2530B2F700744C86 /* FluffyDisplay.entitlements */,
+				BEB26A4F2530B2F700744C86 /* UrchinScreen.entitlements */,
 				BEB26A482530B2F700744C86 /* Preview Content */,
 				BEB26A782531163C00744C86 /* VirtualDisplay.m */,
-				BEB26A772531163C00744C86 /* FluffyDisplay-Bridging-Header.h */,
+				BEB26A772531163C00744C86 /* UrchinScreen-Bridging-Header.h */,
 			);
-			path = FluffyDisplay;
+			path = UrchinScreen;
 			sourceTree = "<group>";
 		};
 		BEB26A482530B2F700744C86 /* Preview Content */ = {
@@ -83,9 +83,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BEB26A3E2530B2F600744C86 /* FluffyDisplay */ = {
+BEB26A3E2530B2F600744C86 /* UrchinScreen */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEB26A522530B2F700744C86 /* Build configuration list for PBXNativeTarget "FluffyDisplay" */;
+			buildConfigurationList = BEB26A522530B2F700744C86 /* Build configuration list for PBXNativeTarget "UrchinScreen" */;
 			buildPhases = (
 				BEB26A3B2530B2F600744C86 /* Sources */,
 				BEB26A3C2530B2F600744C86 /* Frameworks */,
@@ -95,9 +95,9 @@
 			);
 			dependencies = (
 			);
-			name = FluffyDisplay;
-			productName = FluffyDisplay;
-			productReference = BEB26A3F2530B2F600744C86 /* FluffyDisplay.app */;
+name = UrchinScreen;
+productName = UrchinScreen;
+productReference = BEB26A3F2530B2F600744C86 /* UrchinScreen.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -115,7 +115,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BEB26A3A2530B2F600744C86 /* Build configuration list for PBXProject "FluffyDisplay" */;
+			buildConfigurationList = BEB26A3A2530B2F600744C86 /* Build configuration list for PBXProject "UrchinScreen" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -128,7 +128,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BEB26A3E2530B2F600744C86 /* FluffyDisplay */,
+				BEB26A3E2530B2F600744C86 /* UrchinScreen */,
 			);
 		};
 /* End PBXProject section */
@@ -291,7 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = FluffyDisplay/FluffyDisplay.entitlements;
+CODE_SIGN_ENTITLEMENTS = UrchinScreen/UrchinScreen.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				CODE_SIGNING_REQUIRED = NO;
@@ -302,7 +302,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				HEADER_SEARCH_PATHS = include;
-				INFOPLIST_FILE = FluffyDisplay/Info.plist;
+INFOPLIST_FILE = UrchinScreen/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -313,7 +313,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sliprub.UrchinScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "FluffyDisplay/FluffyDisplay-Bridging-Header.h";
+SWIFT_OBJC_BRIDGING_HEADER = "UrchinScreen/UrchinScreen-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -325,7 +325,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = FluffyDisplay/FluffyDisplay.entitlements;
+				CODE_SIGN_ENTITLEMENTS = UrchinScreen/UrchinScreen.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				CODE_SIGNING_REQUIRED = NO;
@@ -336,7 +336,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				HEADER_SEARCH_PATHS = include;
-				INFOPLIST_FILE = FluffyDisplay/Info.plist;
+				INFOPLIST_FILE = UrchinScreen/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -347,7 +347,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sliprub.UrchinScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "FluffyDisplay/FluffyDisplay-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "UrchinScreen/UrchinScreen-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -355,7 +355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BEB26A3A2530B2F600744C86 /* Build configuration list for PBXProject "FluffyDisplay" */ = {
+BEB26A3A2530B2F600744C86 /* Build configuration list for PBXProject "UrchinScreen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEB26A502530B2F700744C86 /* Debug */,
@@ -364,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BEB26A522530B2F700744C86 /* Build configuration list for PBXNativeTarget "FluffyDisplay" */ = {
+BEB26A522530B2F700744C86 /* Build configuration list for PBXNativeTarget "UrchinScreen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEB26A532530B2F700744C86 /* Debug */,

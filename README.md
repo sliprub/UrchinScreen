@@ -72,7 +72,7 @@ This workflow creates a tall, vertical display using two Macs and Sidecar:
 ```bash
 git clone https://github.com/sliprub/UrchinScreen.git
 cd UrchinScreen
-xcodebuild -scheme FluffyDisplay build
+xcodebuild -scheme UrchinScreen build
 ```
 
 Note: You'll need to configure code signing in Xcode for local builds.

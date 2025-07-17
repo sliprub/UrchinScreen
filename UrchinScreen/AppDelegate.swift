@@ -1,9 +1,9 @@
 // -*- Mode: Swift; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; fill-column: 100 -*-
 //
-// Modifications Copyright © 2025 sliprub
+// UrchinScreen Copyright © 2025 sliprub
 // Licensed under Apache License 2.0; see LICENSE for details.
 //
-// Original: FluffyDisplay by tml1024 (Apache 2.0)
+// Based on FluffyDisplay by tml
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
     var virtualDisplayCounter = 0
     var virtualDisplays = [Int: VirtualDisplay]()
 
-    // Represents one (real) display on a peer running FluffyDisplay
+    // Represents one (real) display on a peer running UrchinScreen
     struct PeerDisplay {
         let number: Int
         let peer: String
@@ -109,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
     let deleteSubmenu = NSMenuItem(title: "Delete", action: nil, keyEquivalent: "")
     let deleteMenu = NSMenu()
 
-    let ns = NetService(domain: "local.", type: "_fi-iki-tml-flfd._tcp", name: "\(Host.current().localizedName ?? "?")")
+    let ns = NetService(domain: "local.", type: "_fi-iki-tml-usch._tcp", name: "\(Host.current().localizedName ?? "?")")
     let browser = NetServiceBrowser()
     let queue = DispatchQueue(label: "networkIO")
 
@@ -142,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
 
         browser.includesPeerToPeer = true
         browser.delegate = self
-        browser.searchForServices(ofType: "_fi-iki-tml-flfd._tcp", inDomain: "local.")
+        browser.searchForServices(ofType: "_fi-iki-tml-usch._tcp", inDomain: "local.")
 
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
         if let button = self.statusBarItem.button {
@@ -214,7 +214,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
 
                     virtualDisplayCounter += 1
 
-                    // If we have created a new virtual display, this FluffyDisplay clearly is the
+        // If we have created a new virtual display, this UrchinScreen clearly is the
                     // "main" Mac and no other Mac will use a physical display on this Mac. So we
                     // don't need to advertise our displays.
                     ns.setTXTRecord(nil)
@@ -252,7 +252,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
                 
                 virtualDisplayCounter += 1
                 
-                // If we have created a new virtual display, this FluffyDisplay clearly is the
+                // If we have created a new virtual display, this UrchinScreen clearly is the
                 // "main" Mac and no other Mac will use a physical display on this Mac. So we
                 // don't need to advertise our displays.
                 ns.setTXTRecord(nil)
@@ -368,7 +368,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
     }
 
     func debug(_ string: String) {
-        if beingDebugged || ProcessInfo.processInfo.environment["FLUFFYDISPLAY_DEBUG"] != nil {
+        if beingDebugged || ProcessInfo.processInfo.environment["URCHINSCREEN_DEBUG"] != nil {
             print(string)
         }
     }

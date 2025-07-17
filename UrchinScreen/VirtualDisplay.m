@@ -1,9 +1,9 @@
 // -*- Mode: ObjC; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; fill-column: 100 -*-
 //
-// Modifications Copyright © 2025 sliprub
+// UrchinScreen Copyright © 2025 sliprub
 // Licensed under Apache License 2.0; see LICENSE for details.
 //
-// Original: FluffyDisplay by tml1024 (Apache 2.0)
+// Based on FluffyDisplay by tml
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
     descriptor.redPrimary = CGPointMake(0.6797, 0.3203);
     
     // Create the virtual display with the requested dimensions
-    // Rotation workflow: rotate source display -> sidecar -> mirror to FluffyDisplay
+    // Rotation workflow: rotate source display -> sidecar -> mirror to UrchinScreen
     // Handle rotation:
     // 0°/180°: width and height unchanged (180° image rotation needs to be handled during rendering)
     // 90°/270°: swap width and height
@@ -54,7 +54,7 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
         displayHeight = width;
     }
     if (rotation == 180) {
-        NSLog(@"[FluffyDisplay] 180-degree rotation requested: Output will be upside-down, but framebuffer image transform must be handled in the renderer if needed.");
+        NSLog(@"[UrchinScreen] 180-degree rotation requested: Output will be upside-down, but framebuffer image transform must be handled in the renderer if needed.");
         // Real 180° image rotation should be applied in the rendering logic if not handled by CoreGraphics
     }
     
@@ -80,7 +80,7 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
         return nil;
 
     // Note: Rotation is handled at the source (bare metal Mac) using displayplacer
-    // before sidecaring to FluffyDisplay. The rotation parameter is kept for
+    // before sidecaring to UrchinScreen. The rotation parameter is kept for
     // menu organization and future use.
 
     return display;

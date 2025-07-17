@@ -1,1 +1,12 @@
-FluffyDisplay was developed by Tor Lillqvist <tml@iki.fi> .
+FluffyDisplay was developed by Tor Lillqvist <tml@iki.fi>.
+
+This project (UrchinScreen) is currently maintained by sliprub.
+
+Copyright notices:
+- Original FluffyDisplay code: Copyright (c) Tor Lillqvist
+- UrchinScreen modifications: Copyright © 2025 sliprub
+
+## Third-Party Components
+
+This project includes headers derived from macOS frameworks using class-dump
+by Steve Nygard, sourced from https://github.com/w0lfschild/macOS_headers
