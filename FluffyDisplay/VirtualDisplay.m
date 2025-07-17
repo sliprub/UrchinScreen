@@ -37,8 +37,8 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
     descriptor.greenPrimary = CGPointMake(0.2559, 0.6983);
     descriptor.redPrimary = CGPointMake(0.6797, 0.3203);
     
-    // Create the virtual display with the requested dimensions (no swapping)
-    // The rotation will be handled by displayplacer after creation
+    // Create the virtual display with the requested dimensions
+    // Rotation workflow: rotate source display -> sidecar -> mirror to FluffyDisplay
     int displayWidth = width;
     int displayHeight = height;
     
@@ -63,80 +63,9 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
     if (![display applySettings:settings])
         return nil;
 
-    // If rotation is requested, use displayplacer to rotate the display
-    if (rotation != 0) {
-        // Give the display a moment to be recognized by the system
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"Attempting to rotate display '%@' to %d degrees", name, rotation);
-            
-            // First, find the display ID
-            NSTask *listTask = [[NSTask alloc] init];
-            listTask.launchPath = @"/opt/homebrew/bin/displayplacer";
-            listTask.arguments = @[@"list"];
-            
-            NSPipe *listPipe = [NSPipe pipe];
-            listTask.standardOutput = listPipe;
-            listTask.standardError = listPipe;
-            
-            [listTask launch];
-            [listTask waitUntilExit];
-            
-            NSData *listData = [[listPipe fileHandleForReading] readDataToEndOfFile];
-            NSString *listOutput = [[NSString alloc] initWithData:listData encoding:NSUTF8StringEncoding];
-            
-            // Parse the output to find our display
-            NSArray *lines = [listOutput componentsSeparatedByString:@"\n"];
-            NSString *displayId = nil;
-            
-            for (NSInteger i = 0; i < lines.count; i++) {
-                NSString *line = [lines objectAtIndex:i];
-                if ([line containsString:name]) {
-                    // Look for the persistent screen id in the previous lines
-                    for (NSInteger j = i - 1; j >= 0; j--) {
-                        NSString *prevLine = [lines objectAtIndex:j];
-                        if ([prevLine containsString:@"Persistent screen id:"]) {
-                            NSArray *components = [prevLine componentsSeparatedByString:@" "];
-                            if (components.count >= 4) {
-                                displayId = [components objectAtIndex:3];
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-            
-            if (displayId) {
-                NSLog(@"Found display ID '%@' for display '%@', rotating to %d degrees", displayId, name, rotation);
-                
-                // Now rotate the display
-                NSTask *rotateTask = [[NSTask alloc] init];
-                rotateTask.launchPath = @"/opt/homebrew/bin/displayplacer";
-                rotateTask.arguments = @[[NSString stringWithFormat:@"id:%@ degree:%d", displayId, rotation]];
-                
-                NSPipe *rotatePipe = [NSPipe pipe];
-                rotateTask.standardOutput = rotatePipe;
-                rotateTask.standardError = rotatePipe;
-                
-                [rotateTask launch];
-                [rotateTask waitUntilExit];
-                
-                NSData *rotateData = [[rotatePipe fileHandleForReading] readDataToEndOfFile];
-                NSString *rotateOutput = [[NSString alloc] initWithData:rotateData encoding:NSUTF8StringEncoding];
-                
-                NSLog(@"Rotation command completed. Output: %@", rotateOutput);
-                
-                if (rotateTask.terminationStatus == 0) {
-                    NSLog(@"Successfully rotated display '%@' to %d degrees", name, rotation);
-                } else {
-                    NSLog(@"Failed to rotate display '%@'. Exit code: %d", name, rotateTask.terminationStatus);
-                }
-            } else {
-                NSLog(@"Could not find display ID for display '%@'", name);
-                NSLog(@"Available displays:\n%@", listOutput);
-            }
-        });
-    }
+    // Note: Rotation is handled at the source (bare metal Mac) using displayplacer
+    // before sidecaring to FluffyDisplay. The rotation parameter is kept for
+    // menu organization and future use.
 
     return display;
 }
