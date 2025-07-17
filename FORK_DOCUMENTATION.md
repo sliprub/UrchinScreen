@@ -1,16 +1,17 @@
-# FluffyDisplay Fork Documentation
+# UrchinScreen Fork Documentation
 
 ## Fork Information
 
 **Original Repository**: https://github.com/tml1024/FluffyDisplay.git  
+**Fork Repository**: https://github.com/sliprub/UrchinScreen  
 **Fork Date**: July 16, 2025  
 **Base Version**: Latest commit `67180e3` (February 15, 2024)  
 **Base Commit**: "Merge pull request #21 from mrienstra/patch-ultrawide-aspect-ratios"  
-**Branch**: `feature/rotation-support`  
+**Initial Release**: v1.0.0  
 
 ## Overview
 
-This fork adds comprehensive rotation support to FluffyDisplay, enabling better organization and workflow for sidecar setups with rotated displays.
+UrchinScreen is a fork of FluffyDisplay that adds comprehensive rotation support, enabling advanced multi-Mac workflows for creating vertical display setups using Sidecar.
 
 ## Changes Summary
 
@@ -32,52 +33,44 @@ This fork adds comprehensive rotation support to FluffyDisplay, enabling better 
 - Added `newDisplayWithRotation` method for rotation-aware display creation
 - Updated display naming to include rotation information
 
-**Code Changes**:
+**Complete Code Changes**:
+
+#### Resolution Struct Modification
 
 ```swift
-// ADDED: Rotation property to Resolution struct
 struct Resolution {
     let width, height, ppi: Int32
     let hiDPI: Bool
     let description: String
-    let rotation: Int32  // ← NEW
+    let rotation: Int32
     
-    // MODIFIED: Added rotation parameter with default value 0
     init(_ width: Int32, _ height: Int32, _ ppi: Int32, _ hiDPI: Bool, _ description: String, rotation: Int32 = 0) {
         self.width = width
         self.height = height
         self.ppi = ppi
         self.hiDPI = hiDPI
         self.description = description
-        self.rotation = rotation  // ← NEW
+        self.rotation = rotation
     }
     
-    // MODIFIED: Added rotation parameter with default value 0
     init(_ width: Int, _ height: Int, _ ppi: Int, _ hiDPI: Bool, _ description: String, rotation: Int = 0) {
         self.init(Int32(width), Int32(height), Int32(ppi), hiDPI, description, rotation: Int32(rotation))
     }
 }
 ```
 
-```swift
-// REPLACED: Flat menu creation with hierarchical rotation submenus
-// OLD CODE:
-// let item = NSMenuItem(title: "\(size.width)×\(size.height) (\(size.description))", action: #selector(newDisplay(_:)), keyEquivalent: "")
-// item.tag = i
-// newMenu.addItem(item)
+#### Menu Creation Replacement
 
-// NEW CODE:
+```swift
 for size in predefResolutions {
-    // Create a submenu for each resolution with rotation options
     let resolutionSubmenu = NSMenu()
     
-    // Add rotation options for this resolution
     let rotations = [(0, "Standard"), (90, "90° Clockwise"), (180, "180°"), (270, "270° Clockwise")]
     
     for (angle, rotationName) in rotations {
         let rotatedResolution = Resolution(size.width, size.height, size.ppi, size.hiDPI, size.description, rotation: Int32(angle))
         let rotationItem = NSMenuItem(title: rotationName, action: #selector(newDisplayWithRotation(_:)), keyEquivalent: "")
-        rotationItem.tag = i * 10 + (angle / 90) // Encode resolution index and rotation
+        rotationItem.tag = i * 10 + (angle / 90)
         rotationItem.representedObject = rotatedResolution
         resolutionSubmenu.addItem(rotationItem)
     }
@@ -89,8 +82,9 @@ for size in predefResolutions {
 }
 ```
 
+#### New Method for Rotation-Aware Display Creation
+
 ```swift
-// ADDED: New method for rotation-aware display creation
 @objc func newDisplayWithRotation(_ sender: AnyObject?) {
     if let menuItem = sender as? NSMenuItem,
        let resolution = menuItem.representedObject as? Resolution {
@@ -119,47 +113,39 @@ for size in predefResolutions {
             deleteSubmenu.isHidden = false
             
             virtualDisplayCounter += 1
-            
-            // If we have created a new virtual display, this FluffyDisplay clearly is the
-            // "main" Mac and no other Mac will use a physical display on this Mac. So we
-            // don't need to advertise our displays.
             ns.setTXTRecord(nil)
         }
     }
 }
 ```
 
+#### Updated Existing Methods
+
 ```swift
-// MODIFIED: Updated existing display creation methods to pass rotation parameter
-// In newDisplay(_:)
 if let display = createVirtualDisplay(resolution.width,
                                       resolution.height,
                                       resolution.ppi,
                                       resolution.hiDPI,
                                       name,
-                                      Int32(resolution.rotation)) {  // ← ADDED rotation parameter
+                                      Int32(resolution.rotation)) {
 
-// In newAutoDisplay(_:)
 if let display = createVirtualDisplay(peerDisplay.resolution.width,
                                       peerDisplay.resolution.height,
                                       peerDisplay.resolution.ppi,
                                       peerDisplay.resolution.hiDPI,
                                       peerDisplay.resolution.description,
-                                      Int32(peerDisplay.resolution.rotation)) {  // ← ADDED rotation parameter
+                                      Int32(peerDisplay.resolution.rotation)) {
 ```
 
 ### 2. FluffyDisplay/VirtualDisplay.h
 
 **Purpose**: Updated function signature to accept rotation parameter
 
-**Code Changes**:
+**Exact Code Changes**:
 
 ```objc
-// MODIFIED: Added rotation parameter to function signature
-// OLD:
-// id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name);
+#import <Foundation/Foundation.h>
 
-// NEW:
 id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name, int rotation);
 ```
 
@@ -167,61 +153,56 @@ id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *na
 
 **Purpose**: Updated virtual display creation to accept rotation parameter and added documentation
 
-**Code Changes**:
+**Complete Function Code**:
 
 ```objc
-// MODIFIED: Updated function signature and added rotation parameter
-// OLD:
-// id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name) {
-
-// NEW:
 id createVirtualDisplay(int width, int height, int ppi, BOOL hiDPI, NSString *name, int rotation) {
-```
 
-```objc
-// MODIFIED: Improved variable naming and added workflow comments
-// OLD:
-// descriptor.maxPixelsHigh = height;
-// descriptor.maxPixelsWide = width;
-// descriptor.sizeInMillimeters = CGSizeMake(25.4 * width / ppi, 25.4 * height / ppi);
+    CGVirtualDisplaySettings *settings = [[CGVirtualDisplaySettings alloc] init];
+    settings.hiDPI = hiDPI;
 
-// NEW:
-// Create the virtual display with the requested dimensions
-// Rotation workflow: rotate source display -> sidecar -> mirror to FluffyDisplay
-int displayWidth = width;
-int displayHeight = height;
+    CGVirtualDisplayDescriptor *descriptor = [[CGVirtualDisplayDescriptor alloc] init];
+    descriptor.queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    descriptor.name = name;
 
-descriptor.maxPixelsHigh = displayHeight;
-descriptor.maxPixelsWide = displayWidth;
-descriptor.sizeInMillimeters = CGSizeMake(25.4 * displayWidth / ppi, 25.4 * displayHeight / ppi);
-```
+    // See System Preferences > Displays > Color > Open Profile > Apple display native information
+    descriptor.whitePoint = CGPointMake(0.3125, 0.3291);
+    descriptor.bluePrimary = CGPointMake(0.1494, 0.0557);
+    descriptor.greenPrimary = CGPointMake(0.2559, 0.6983);
+    descriptor.redPrimary = CGPointMake(0.6797, 0.3203);
+    
+    // Create the virtual display with the requested dimensions
+    // Rotation workflow: rotate source display -> sidecar -> mirror to FluffyDisplay
+    int displayWidth = width;
+    int displayHeight = height;
+    
+    descriptor.maxPixelsHigh = displayHeight;
+    descriptor.maxPixelsWide = displayWidth;
+    descriptor.sizeInMillimeters = CGSizeMake(25.4 * displayWidth / ppi, 25.4 * displayHeight / ppi);
+    descriptor.serialNum = 1;
+    descriptor.productID = 1;
+    descriptor.vendorID = 1;
 
-```objc
-// MODIFIED: Updated hiDPI calculation to use new variable names
-// OLD:
-// if (settings.hiDPI) {
-//     width /= 2;
-//     height /= 2;
-// }
-// CGVirtualDisplayMode *mode = [[CGVirtualDisplayMode alloc] initWithWidth:width
-//                                                                   height:height
-//                                                              refreshRate:60];
+    CGVirtualDisplay *display = [[CGVirtualDisplay alloc] initWithDescriptor:descriptor];
 
-// NEW:
-if (settings.hiDPI) {
-    displayWidth /= 2;
-    displayHeight /= 2;
+    if (settings.hiDPI) {
+        displayWidth /= 2;
+        displayHeight /= 2;
+    }
+    CGVirtualDisplayMode *mode = [[CGVirtualDisplayMode alloc] initWithWidth:displayWidth
+                                                                      height:displayHeight
+                                                                 refreshRate:60];
+    settings.modes = @[mode];
+
+    if (![display applySettings:settings])
+        return nil;
+
+    // Note: Rotation is handled at the source (bare metal Mac) using displayplacer
+    // before sidecaring to FluffyDisplay. The rotation parameter is kept for
+    // menu organization and future use.
+
+    return display;
 }
-CGVirtualDisplayMode *mode = [[CGVirtualDisplayMode alloc] initWithWidth:displayWidth
-                                                                  height:displayHeight
-                                                             refreshRate:60];
-```
-
-```objc
-// ADDED: Documentation comment explaining rotation workflow
-// Note: Rotation is handled at the source (bare metal Mac) using displayplacer
-// before sidecaring to FluffyDisplay. The rotation parameter is kept for
-// menu organization and future use.
 ```
 
 ### 4. ROTATION_WORKFLOW.md (NEW FILE)

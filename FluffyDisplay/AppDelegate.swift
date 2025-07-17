@@ -1,4 +1,9 @@
 // -*- Mode: Swift; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; fill-column: 100 -*-
+//
+// Modifications Copyright © 2025 sliprub
+// Licensed under Apache License 2.0; see LICENSE for details.
+//
+// Original: FluffyDisplay by tml1024 (Apache 2.0)
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -183,7 +188,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
         deleteSubmenu.isHidden = true
 
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit FluffyDisplay", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit UrchinScreen", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
 
         statusBarItem.menu = menu
     }
@@ -192,7 +197,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
         if let menuItem = sender as? NSMenuItem {
             if menuItem.tag >= 0 && menuItem.tag < predefResolutions.count {
                 let resolution = predefResolutions[menuItem.tag]
-                let name = "FluffyDisplay Virtual Display #\(virtualDisplayCounter)"
+                let name = "UrchinScreen Virtual Display #\(virtualDisplayCounter)"
                 if let display = createVirtualDisplay(resolution.width,
                                                       resolution.height,
                                                       resolution.ppi,
@@ -223,7 +228,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NetServiceDelegate, NetServi
            let resolution = menuItem.representedObject as? Resolution {
             
             let rotationSuffix = resolution.rotation == 0 ? "" : " (\(resolution.rotation)°)"
-            let name = "FluffyDisplay Virtual Display #\(virtualDisplayCounter)\(rotationSuffix)"
+        let name = "UrchinScreen Virtual Display #\(virtualDisplayCounter)\(rotationSuffix)"
             
             if let display = createVirtualDisplay(resolution.width,
                                                   resolution.height,
