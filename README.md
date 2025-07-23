@@ -1,6 +1,6 @@
 # UrchinScreen
 
-**A rotation-aware virtual display manager for macOS, enabling advanced multi-Mac Sidecar workflows**
+**A rotation-aware virtual display manager for macOS, enabling advanced multi-Mac Airplay workflows**
 
 UrchinScreen is a fork of [FluffyDisplay](https://github.com/tml1024/FluffyDisplay) by tml1024, enhanced with rotation support and workflow automation for creating vertical display setups across multiple Macs.
 
@@ -13,22 +13,22 @@ UrchinScreen is a fork of [FluffyDisplay](https://github.com/tml1024/FluffyDispl
 
 ## What is UrchinScreen?
 
-UrchinScreen creates virtual displays on macOS with rotation support, designed specifically for a two-Mac workflow where you want to create a tall, vertical display setup using Sidecar.
+UrchinScreen creates virtual displays on macOS with rotation support, designed specifically for a two-Mac workflow where you want to create a tall, vertical display setup using Airplay.
 
 ## Key Features
 
 - **Virtual Display Creation**: Create virtual displays of any supported resolution
 - **Rotation Support**: Create displays in Standard (0°), 90° Clockwise, 180°, or 270° Clockwise orientations
 - **Multi-Mac Support**: Automatically discover and connect to other Macs running UrchinScreen
-- **Sidecar Integration**: Designed to work seamlessly with macOS Sidecar for display mirroring
+- **Airplay Integration**: Designed to work seamlessly with macOS Airplay for display mirroring
 
 ## The Two-Mac Vertical Display Workflow
 
-This workflow creates a tall, vertical display using two Macs and Sidecar:
+This workflow creates a tall, vertical display using two Macs and Airplay:
 
 ### Requirements
 - **Mac 1** (Main): Running UrchinScreen
-- **Mac 2** (Sidecar source): Physical Mac with rotatable display
+- **Mac 2** (Airplay source): Physical Mac with rotatable display
 - **displayplacer**: Install on Mac 2 via `brew install displayplacer`
 
 ### Setup Steps
@@ -39,7 +39,7 @@ This workflow creates a tall, vertical display using two Macs and Sidecar:
    - Go to "New" → Select your desired resolution → Choose "90° Clockwise"
    - This creates a virtual display with swapped dimensions (e.g., 1080×1920 instead of 1920×1080)
 
-2. **On Mac 2 (Physical Mac)**:
+2. **On Mac 2 (90/270degree Mac)**:
    - Install displayplacer: `brew install displayplacer`
    - Run `displayplacer list` to identify your display
    - Rotate the physical display 90 degrees:
@@ -48,9 +48,8 @@ This workflow creates a tall, vertical display using two Macs and Sidecar:
      ```
    - The physical display is now in portrait mode
 
-3. **Connect via Sidecar**:
-   - On Mac 2, open System Preferences → Sidecar
-   - Connect to Mac 1
+3. **Connect via Airplay**:
+   - On Mac 1, Airplay to Mac 2
    - Choose to mirror the UrchinScreen virtual display
    - Result: A tall, vertical display that spans the full height of the rotated physical screen
 
@@ -58,7 +57,7 @@ This workflow creates a tall, vertical display using two Macs and Sidecar:
 
 - UrchinScreen creates a virtual display with pre-rotated dimensions (width/height swapped for 90°/270°)
 - The physical Mac's display is rotated to match using displayplacer
-- Sidecar mirrors the virtual display to the rotated physical display
+- Airplay mirrors the virtual display to the rotated physical display
 - The result is a seamless vertical display experience
 
 ## Installation
